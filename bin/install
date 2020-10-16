@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+_install() {
+	local install_type=$1
+	local version=$2
+	version1=$(echo $version | sed 's/^v//')
+	local install_path=$3
+	tmpd=$(mktemp -d)
+	cd $tmpd
+	source_path="https://github.com/prometheus/prometheus/releases/download/${version}/prometheus-${version1}.linux-amd64.tar.gz"
+	curl -L $source_path -o ${version1}.tar.gz
+	tar -xzf ${version1}.tar.gz
+	rm ${version1}.tar.gz
+
+	mv ./prometheus-${version1}.linux-amd64/* $install_path/
+	mkdir -p $install_path/bin
+	mv $install_path/prometheus $install_path/bin/
+	mv $install_path/promtool $install_path/bin/
+
+	rm -rf $tmpd
+}
+
+_install $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
