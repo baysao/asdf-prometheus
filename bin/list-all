@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-echo $(curl -s https://api.github.com/repos/prometheus/prometheus/releases | grep -oP '"tag_name": "\K(.*)(?=")')
+echo $(curl -s https://api.github.com/repos/prometheus/prometheus/releases | grep -oP '"tag_name": "\K(.*)(?=")') | sort
